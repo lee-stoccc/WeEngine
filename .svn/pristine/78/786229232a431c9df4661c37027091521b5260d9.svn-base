@@ -1,0 +1,62 @@
+{template 'common/header'}
+{template 'web/AJcommonCssAndJs'}
+
+<style type="text/css">
+.imgview{
+padding:10px;
+width:100%;
+}
+.vimg{border:1px solid gray;}
+.imgdelview{
+float:left;height:160px;width:240px;padding:0 20px;display:flex; justify-content:center;
+align-items:flex-end
+}
+
+</style>
+
+<div class="panel panel-default">
+<div class="panel-heading" id="paoject_info">信息内容</div>
+<div class="panel-body">
+联系电话:{$det['u_phone']}</br>
+消息分类:{$det['tname']}</br>
+消息内容:{$det['content']}</br>
+</div>
+
+<div class="panel-heading" id="paoject_info">附加图片管理</div>
+<div class="panel-body">
+
+
+{loop $imglist $iindex $irow}
+<div class="imgview">
+<form action="" class="form-horizontal form" method="post" autocomplete="off">
+<input type="hidden" name="mid" value="{$det['id']}">
+<input type="hidden" name="oncode" value="{$det['oncode']}">
+<input type="hidden" name="id" value="{$irow['id']}">
+<input type="hidden" name="token" value="{$_W['token']}" />
+<div>
+
+<a href="{$irow['imgpath']}" target="_blank"><img src="{$irow['imgpath']}" class="imgdelview"></a>
+</div>
+<!-- <div>{php echo tpl_form_field_image('img',$irow['imgpath']);}</div> -->
+<div style="margin-bottom:10px;margin-top:10px;width:100%;">
+<!-- <button type="submit" class="btn btn-success col-lg-2" name="submit_upimage" value="提交"  style="margin-right:10px!important;">更新图片</button>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="submit" class="btn btn-warning col-lg-2" name="submit_delimage" value="提交">删除图片</button> -->
+</form>  
+</div>
+</div>
+
+{/loop}
+
+
+</div>
+
+</div>
+
+
+
+
+{template 'common/footer'}
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

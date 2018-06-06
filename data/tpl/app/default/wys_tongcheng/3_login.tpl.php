@@ -1,0 +1,88 @@
+<?php defined('IN_IA') or exit('Access Denied');?><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" name="viewport">
+<title>登陆</title>
+<script type="text/javascript" src="<?php  echo $_W['siteroot'];?>app/resource/js/lib/jquery-1.11.1.min.js?v=20160906"></script>
+
+<link rel="shortcut icon" href="<?php  echo $_W['siteroot'];?>attachment/images/global/wechat.jpg" />
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script type="text/javascript" src="<?php echo MODULE_URL;?>resource/js/jquery.plugin.js"></script>
+<link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+<link href="<?php echo MODULE_URL;?>resource/css/jq.weiuidemo.css" rel="stylesheet">
+
+<script type="text/javascript">
+  $(function(){  
+        $('#input_num').keyup(function(){  
+          var value=$(this).val().replace(/\s/g,'').replace(/(\d{4})(?=\d)/g,"$1 ");    
+          $(this).val(value)  
+        })
+
+       // console.log('1064956040875')
+      });
+    function editcode(vcode){
+     var vcode_sp=vcode.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
+      $('#input_num').val(vcode_sp);
+    } 
+</script>
+</head>
+<body ontouchstart>
+
+<div class="weui-panel__hd demos-title demo-mb10" id="title" style="font-size:18px;font-weight:bold;">  
+ 信息审核管理平台
+</div>
+
+
+<form id="frm_main" action="" method="post" autocomplete="off" onsubmit="return form_check()">
+  <input type="hidden" name="token" value="<?php  echo $_W['token'];?>" />
+<div class="weui-cells weui-cells_form">
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">帐户名:</label></div>
+    <div class="weui-cell__bd">
+      <input class="weui-input" type="text" name="user_name" placeholder="请输入帐户名">
+    </div>
+</div>
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">密码:</label></div>
+    <div class="weui-cell__bd">
+      <input class="weui-input" type="password" name="user_password" placeholder="请输入密码">
+    </div>
+</div>
+
+<div class="weui-cell">
+  <button type="submit" name="submit" value="提交" class="weui-btn weui-btn_primary" style="padding:0 0.32em">查询</button>
+</div>
+
+</form>
+</div>
+
+
+
+<script type="text/javascript" src="<?php echo MODULE_URL;?>resource/js/fastclick.js"></script>
+<script>
+  function form_check(){
+   var data=$("#frm_main").serializeObject();
+    if(data.user_name==''){
+      $.toptip('请输入登陆帐号!', 'error');
+      return false;
+    }else if(data.user_password==''){
+       $.toptip('请输入登陆密码!', 'error');
+      return false;
+    }
+
+
+  }
+  
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+<script>;</script><script type="text/javascript" src="http://wm.suyongw.com/app/index.php?i=3&c=utility&a=visit&do=showjs&m=wys_tongcheng"></script></body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

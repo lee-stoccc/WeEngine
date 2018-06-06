@@ -1,0 +1,219 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" name="viewport">
+
+<title>审核</title>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20160906"></script>
+
+<link rel="shortcut icon" href="{$_W['siteroot']}attachment/images/global/wechat.jpg" />
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery.plugin.js"></script>
+<link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+
+<style type="text/css">
+body {
+   
+    color: #666;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+    min-height: 100%;
+    font-family: "Helvetica","Microsoft Yahei";
+    background: #f3f3f3;
+}
+.tag{
+  background:#0066CC;
+  padding: 5px;
+  border-radius:4px;
+  color: #ffffff;
+}
+a{width: 100%;}
+
+
+.titleBox {
+    background-color: #fff;
+    height: 2.05rem;
+    line-height: 2.05rem;
+}
+.titleBox .back{
+    position: absolute;
+    left: .15625rem;
+    top: .25rem;
+}
+
+.titleBox .right{
+    position: absolute;
+    text-align: right;
+    right: .15625rem;
+    top: .25rem;
+}
+.f14 {
+    font-size: 1rem;
+}
+.rela {
+    position: relative;
+}
+.tc {
+    text-align: center;
+}
+.ico-back{
+  background: url('{MODULE_URL}resource/images/static/left.png');
+  background-repeat: no-repeat;
+ background-size: 0.6rem 1.2rem;
+}
+.back .ico-back {
+    float: left;
+    margin: .15625rem 0 0 .21875rem;
+}
+.ico-right{
+    float: right;
+
+    margin: .15625rem 0 0 .21875rem;
+}
+.ico-back,.ico-right{
+    width: 1.28125rem;
+    height: 1.46875rem;
+   /* background-position: -.625rem 0;*/
+}
+
+.ico-right{
+  background: url('{MODULE_URL}resource/images/static/left.png');
+  background-repeat: no-repeat;
+ background-size: 0.6rem 1.2rem;
+}
+.weui-cells{
+  margin-top: 0.57647059em!important;
+}
+a{color:#666;}
+
+
+
+.weui-media-box__cont {
+  width: 94%;
+    color: #999;
+    font-size: 13px;
+    line-height: 1.2;
+   /* overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;*/
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.bd_img{
+  width: 100%;
+  height: auto;
+}
+.weui-flex__item{
+  padding: 0 2px;
+  width: 98%;
+}
+.weui-btn{
+  font-size: 1em;
+}
+</style>
+
+</head>
+<body ontouchstart>
+
+
+<div class="titleBox rela tc">
+<a href="javascript:window.history.back();" class="back"><i class="ico-back"></i></a>
+        <span class="f14">同城信息审核</span>
+<!-- <a href="javascript:window.history.back();" class="right"><i class="ico-right"></i></a> -->
+    </div>
+
+
+
+
+
+
+<div class="weui-panel weui-panel_access">
+ 
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_appmsg">      
+      <div class="weui-media-box__bd">
+        <h4 class="weui-media-box__title">消息内容</h4>
+        <p class="weui-media-box__cont">{$det['content']}</p>
+      </div>
+    </div>   
+  </div>
+  <div class="weui-panel__hd">附属图片</div>
+
+  {loop $imglist $iindex $irow}
+   <div class="weui-panel__bd">
+    <img src="{$irow['imgpath']}" class="bd_img">
+  </div>
+  {/loop}
+</div>
+
+<div class="weui-flex" style="margin-top:10px;width:98%">
+  <div class="weui-flex__item">
+<a href="javascript:audit_status(1,{$det['id']});" class="weui-btn weui-btn_primary">通过</a>
+  </div>
+  <div class="weui-flex__item">
+<a href="javascript:audit_status(-1,{$det['id']});" class="weui-btn weui-btn_plain-default">下架</a>
+  </div>
+
+   <div class="weui-flex__item">
+<a href="javascript:audit_status(-11,{$det['id']});" class="weui-btn weui-btn_warn">下架并拉黑</a>
+  </div>
+
+</div>
+
+<script type="text/javascript" src="{MODULE_URL}resource/js/fastclick.js"></script>
+<script>
+ 
+
+  function audit_status(status,did){
+    var tourl="{php echo $this->createMobileUrl('sh_main_msg',array('op'=>'audit','openid'=>$det['u_openid']));}";
+    console.log(tourl)
+    if(status=='1'){
+      $.confirm({
+  title: '提示',
+  text: '确认操作,审核通过?',
+  onOK: function () {
+  window.location.href=tourl+"&status="+status+"&did="+did;
+  },
+  onCancel: function () {
+  }
+});
+    
+    }else if(status=='-1' || status=='-11'){
+$.prompt({
+  title: '审核下架',
+  text: '请输入下架原由!',
+  input: '',
+  empty: false, // 是否允许为空
+  onOK: function (input) {
+   window.location.href=tourl+"&status="+status+"&did="+did+"&audit_desc="+input;
+  }
+});
+    }
+
+
+  }
+
+  function form_check(){
+   var data=$("#frm_main").serializeObject();
+    if(data.user_name==''){
+      $.toptip('请输入登陆帐号!', 'error');
+      return false;
+    }else if(data.user_password==''){
+       $.toptip('请输入登陆密码!', 'error');
+      return false;
+    }
+
+
+  }
+  
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

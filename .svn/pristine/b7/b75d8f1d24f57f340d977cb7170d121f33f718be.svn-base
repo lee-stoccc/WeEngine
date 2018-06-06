@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
+	<application setting="true">
+		<name><![CDATA[同城同城]]></name>
+		<identifie><![CDATA[wys_tongcheng]]></identifie>
+		<version><![CDATA[3.0.8]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[本地同城+店铺]]></ability>
+		<description><![CDATA[同城是一个微信公共账号运营的一个比较好的模块，这个模块，这个模块包含了本地生活中吃喝玩乐二手等生活模块。在运营层面，可以考虑利用小程序线下的快捷的方式，和商家合作分布二维码。盈利方面，主要可以考虑传统的商家的广告和营销活动的举办。]]></description>
+		<author><![CDATA[速用科技]]></author>
+		<url><![CDATA[https://taobao.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="审核前台" do="sh_index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="通)帐户提现" do="account_tx_action" state="" direct="false" />
+			<entry title="店)商品管理" do="store_goods_action" state="" direct="false" />
+			<entry title="店)店铺管理" do="store_info_action" state="" direct="false" />
+			<entry title="店)店铺类型" do="store_mtype_action" state="" direct="false" />
+			<entry title="同)管理审核" do="sh_action" state="" direct="false" />
+			<entry title="同)举报信息" do="jubao_action" state="" direct="false" />
+			<entry title="同)评论管理" do="comments_action" state="" direct="false" />
+			<entry title="同)分类管理" do="mtype_action" state="" direct="false" />
+			<entry title="同)信息管理" do="msg_action" state="" direct="false" />
+			<entry title="店)订单管理" do="store_order_action" state="" direct="false" />
+			<entry title="通)支付统计" do="order_action" state="" direct="false" />
+			<entry title="通)充值套餐" do="paytaocan_action" state="" direct="false" />
+			<entry title="通)客户信息" do="user_action" state="" direct="false" />
+			<entry title="通)实名审核" do="smrz_action" state="" direct="false" />
+			<entry title="通)幻灯管理" do="banner_action" state="" direct="false" />
+			<entry title="通)幻灯出租" do="bannersale_action" state="" direct="false" />
+			<entry title="同)使用帮助" do="z_help" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_banner` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `title` varchar(100) NOT NULL COMMENT '幻灯片标题',
+  `img` varchar(500) DEFAULT NULL COMMENT '图片',
+  `mid` varchar(100) DEFAULT NULL COMMENT '消息ID',
+  `btype` varchar(10) DEFAULT NULL COMMENT '所属类目id',
+  `btypename` varchar(50) DEFAULT NULL COMMENT '所属类目',
+  `msg_type` varchar(10) DEFAULT '0' COMMENT '消息类型',
+  `content` text COMMENT '内容',
+  `money` float DEFAULT '0' COMMENT '费用',
+  `is_sale` varchar(10) DEFAULT '0' COMMENT '是否出租',
+  `sale_status` varchar(10) DEFAULT NULL COMMENT '出租状态',
+  `sale_openid` varchar(100) DEFAULT NULL COMMENT '出租者openid',
+  `sale_phone` varchar(100) DEFAULT NULL COMMENT '出租者电话',
+  `days` int(11) DEFAULT '0' COMMENT '出租天数',
+  `lastdate` varchar(20) DEFAULT NULL COMMENT '到期时间',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `audit_status` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  `enable` varchar(10) DEFAULT '1' COMMENT '启用状态',
+  `pxh` int(11) DEFAULT '0' COMMENT '排序',
+  `sale_img` varchar(500) DEFAULT NULL COMMENT '出租显示图片',
+  `sale_mid` varchar(100) DEFAULT NULL COMMENT '出租跳转消息',
+  `sale_pay` varchar(10) DEFAULT NULL COMMENT '支付状态',
+  `transaction_id` varchar(100) DEFAULT NULL COMMENT '支付单号',
+  `package` varchar(100) DEFAULT NULL COMMENT '统一下单号',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_comments` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '消息的识别码',
+  `pl_ctype` varchar(50) DEFAULT NULL COMMENT '类型',
+  `attr` varchar(100) DEFAULT NULL COMMENT '归属ID',
+  `mid` varchar(100) NOT NULL COMMENT '消息id',
+  `m_content` text COMMENT '贴子内容',
+  `mcontent` text COMMENT '评论内容',
+  `tid` varchar(50) NOT NULL COMMENT '消息分类',
+  `tname` varchar(100) NOT NULL COMMENT '消息分类名',
+  `rp_type` varchar(10) DEFAULT '0' COMMENT '回复类型',
+  `rp_nickname` varchar(100) NOT NULL COMMENT '回复者-姓名',
+  `rp_city` varchar(100) DEFAULT NULL COMMENT '回复者-城市',
+  `rp_openid` varchar(100) NOT NULL COMMENT '回复者-openid',
+  `rp_unionid` varchar(100) DEFAULT NULL COMMENT '回复者开放平台统一ID',
+  `rp_avatarurl` varchar(500) DEFAULT NULL COMMENT '回复者-用户头像',
+  `rp_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `formID` varchar(100) DEFAULT NULL COMMENT '表单ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_goods` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '消息的识别码',
+  `mid` varchar(100) NOT NULL COMMENT '消息id',
+  `tid` varchar(50) NOT NULL COMMENT '消息分类',
+  `tname` varchar(100) NOT NULL COMMENT '消息分类名',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=136 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_jubao` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `mid` varchar(100) NOT NULL COMMENT '消息ID',
+  `msg_content` text COMMENT '消息内容',
+  `jb_conent` text COMMENT '举报内容',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '举报时间',
+  `cl_state` varchar(10) DEFAULT '0' COMMENT '处理状态',
+  `formID` varchar(100) DEFAULT NULL COMMENT '表单ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_manager` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `user_name` varchar(120) NOT NULL COMMENT '登陆帐号',
+  `user_password` varchar(200) NOT NULL COMMENT '登陆密码',
+  `openid` varchar(120) DEFAULT NULL COMMENT '用户openid',
+  `nickname` varchar(120) DEFAULT NULL COMMENT '呢称',
+  `avatar` varchar(520) DEFAULT NULL COMMENT '头像',
+  `country` varchar(120) DEFAULT NULL COMMENT '国',
+  `province` varchar(120) DEFAULT NULL COMMENT '省',
+  `city` varchar(120) DEFAULT NULL COMMENT '市',
+  `enable` varchar(10) DEFAULT '0' COMMENT '启用状态',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_msg` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `tid` varchar(50) NOT NULL COMMENT '消息分类',
+  `tname` varchar(100) NOT NULL COMMENT '消息分类名',
+  `content` text COMMENT '消息文字内容',
+  `imgs_list` text COMMENT '图片记录集合',
+  `comments_cnt` int(11) DEFAULT '0' COMMENT '评论数量',
+  `goods_cnt` int(11) DEFAULT '0' COMMENT '点赞数量',
+  `look_cnt` int(11) DEFAULT '0' COMMENT '阅读量',
+  `comments_isopen` int(11) DEFAULT '1' COMMENT '评论开关',
+  `loc_address` varchar(500) DEFAULT NULL COMMENT '位置',
+  `loc_lon` varchar(100) DEFAULT NULL COMMENT '经度',
+  `loc_lat` varchar(100) DEFAULT NULL COMMENT '纬度',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `audit_status` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  `audit_desc` text COMMENT '审核反馈',
+  `default_money` float DEFAULT '0' COMMENT '发帖费用',
+  `is_placed_top` varchar(10) DEFAULT '0' COMMENT '是否置顶',
+  `placed_top_days` int(11) DEFAULT '0' COMMENT '置顶天数',
+  `placed_top_money` float DEFAULT '0' COMMENT '置顶费用',
+  `placed_top_duedate` varchar(20) DEFAULT NULL COMMENT '置顶到期日期',
+  `transaction_id` varchar(32) DEFAULT NULL COMMENT '交易单号',
+  `pay_channel` varchar(30) DEFAULT NULL COMMENT '支付频道',
+  `total_money` float DEFAULT '0' COMMENT '总费用',
+  `payStatus` int(11) NOT NULL DEFAULT '0' COMMENT '支付状态',
+  `formId` varchar(100) DEFAULT NULL COMMENT '推送标志',
+  `banner_sale` varchar(10) DEFAULT '0' COMMENT '是否租用广告位',
+  `loc_nation` varchar(50) DEFAULT NULL COMMENT '位置国家',
+  `loc_province` varchar(50) DEFAULT NULL COMMENT '位置省',
+  `loc_city` varchar(50) DEFAULT NULL COMMENT '位置市',
+  `loc_district` varchar(50) DEFAULT NULL COMMENT '位置区',
+  `loc_city_code` varchar(50) DEFAULT NULL COMMENT '位置城市代码',
+  `loc_nation_code` varchar(50) DEFAULT NULL COMMENT '位置国家代码',
+  `tag_sm` varchar(10) DEFAULT '0' COMMENT '实名标记',
+  `parent_tid` varchar(50) DEFAULT NULL COMMENT '子消息id',
+  `parent_tname` varchar(100) DEFAULT NULL COMMENT '子消息分类名',
+  `shang_cnt` int(11) DEFAULT '0' COMMENT '打赏次数',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_msg_imgs` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `imgpath` varchar(500) DEFAULT NULL COMMENT '消息图片',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=286 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_msg_placed_top_record` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '消息的识别码',
+  `mid` varchar(100) NOT NULL COMMENT '消息id',
+  `msgdesc` varchar(200) DEFAULT NULL COMMENT '消息概要',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `placed_top_days` int(11) DEFAULT '0' COMMENT '置顶天数',
+  `placed_top_money` float DEFAULT '0' COMMENT '置顶费用',
+  `placed_top_duedate` varchar(20) DEFAULT NULL COMMENT '置顶到期日期',
+  `transaction_id` varchar(32) DEFAULT NULL COMMENT '交易单号',
+  `pay_channel` varchar(30) DEFAULT NULL COMMENT '支付频道',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_mtype` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(50) NOT NULL COMMENT '识别码',
+  `tname` varchar(100) NOT NULL COMMENT '分类名',
+  `send_money` float DEFAULT '0' COMMENT '发帖费用',
+  `warn_words` text COMMENT '敏感词',
+  `is_audit` varchar(10) DEFAULT '0' COMMENT '是否需要审核',
+  `img` varchar(500) DEFAULT NULL COMMENT '图标',
+  `show_index` varchar(10) DEFAULT '0' COMMENT '首页显示',
+  `pxh` int(11) DEFAULT '0' COMMENT '排序',
+  `attr` varchar(50) DEFAULT '0' COMMENT '归属',
+  `manager_openid` varchar(500) DEFAULT NULL COMMENT '管理员open_id',
+  `enable` varchar(10) DEFAULT '1' COMMENT '启用状态',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `is_parent_open` varchar(10) DEFAULT '0' COMMENT '是否开启子分类',
+  `type` varchar(10) DEFAULT '0' COMMENT '分类类型',
+  `rd_wx_appid` varchar(100) DEFAULT '' COMMENT '小程序id',
+  `rd_wx_path` varchar(500) DEFAULT '' COMMENT '小程序路径',
+  `rd_wx_extradata` varchar(500) DEFAULT '' COMMENT '小程序参数',
+  `rd_wx_envversion` varchar(100) DEFAULT '' COMMENT '小程序版本',
+  `rd_tw_imglist` text COMMENT '打开图文-图片集',
+  `rd_tw_rmk` text COMMENT '打开图文-内容',
+  `rd_tw_title` varchar(500) DEFAULT '' COMMENT '打开图文-标题',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_payorder` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) DEFAULT NULL COMMENT '订单识别码',
+  `openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `ordertype` varchar(100) NOT NULL COMMENT '订单类型',
+  `dt_id` varchar(100) DEFAULT NULL COMMENT '关联的id',
+  `orderrmk` varchar(100) DEFAULT NULL COMMENT '订单说明',
+  `total_money` float DEFAULT '0' COMMENT '总费用',
+  `transaction_id` varchar(100) DEFAULT NULL COMMENT '交易单号',
+  `package` varchar(100) DEFAULT NULL COMMENT '统一下单id',
+  `paystate` varchar(10) DEFAULT '0' COMMENT '支付状态',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  `paycrtime` varchar(30) DEFAULT NULL COMMENT '支付时间',
+  `u_name` varchar(100) DEFAULT NULL COMMENT '用户名',
+  `u_phone` varchar(100) DEFAULT NULL COMMENT '用户电话',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `random_code` varchar(50) DEFAULT NULL COMMENT '随机数',
+  `pay_channel` varchar(100) DEFAULT 'wx' COMMENT '支付频道',
+  `system_rmk` text COMMENT '系统说明',
+  `system_money` float DEFAULT '0' COMMENT '平台扣除',
+  `openid_y` varchar(100) DEFAULT '' COMMENT '原用户openid',
+  `user_money` float DEFAULT '0' COMMENT '用户得到扣除后费用',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_paytaocan` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `title` varchar(100) DEFAULT NULL COMMENT '充值套餐标题',
+  `pay_money` float DEFAULT '0' COMMENT '充值金额',
+  `song_integral` float DEFAULT '0' COMMENT '赠送积分',
+  `enable` varchar(10) DEFAULT '0' COMMENT '启用状态',
+  `rmk` text COMMENT '套餐说明',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建日期',
+  `lasttime` varchar(30) DEFAULT NULL COMMENT '到期时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_salebanner` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) DEFAULT NULL COMMENT '订单识别码',
+  `openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `u_address` varchar(500) DEFAULT NULL COMMENT '位置',
+  `img` varchar(500) DEFAULT NULL COMMENT '上传的图片',
+  `bn_id` varchar(100) DEFAULT NULL COMMENT '幻灯出租位id',
+  `bn_btypename` varchar(100) DEFAULT NULL COMMENT '幻灯组类型',
+  `bn_daymoney` float DEFAULT '0' COMMENT '每日费用',
+  `bn_days` int(11) DEFAULT '0' COMMENT '租借天数',
+  `bn_pxh` varchar(50) DEFAULT NULL COMMENT '排序',
+  `bn_total_money` float DEFAULT '0' COMMENT '总费用',
+  `m_id` varchar(100) DEFAULT NULL COMMENT '展示消息id',
+  `paystate` varchar(10) DEFAULT '0' COMMENT '支付状态',
+  `transaction_id` varchar(100) DEFAULT NULL COMMENT '交易单号',
+  `package` varchar(100) DEFAULT NULL COMMENT '统一下单id',
+  `formId` varchar(100) DEFAULT NULL COMMENT '表ID',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  `lasttime` varchar(30) DEFAULT NULL COMMENT '截止支付时间',
+  `paycrtime` varchar(30) DEFAULT NULL COMMENT '支付时间',
+  `banner_lasttime` varchar(30) DEFAULT NULL COMMENT '截止显示时间',
+  `audit_status` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_smrz` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `openid` varchar(100) NOT NULL COMMENT '用户openid',
+  `p_name` varchar(50) NOT NULL COMMENT '真实姓名',
+  `p_sfid` varchar(30) NOT NULL COMMENT '身份证',
+  `p_phone` varchar(20) NOT NULL COMMENT '手机号码',
+  `formID` varchar(50) DEFAULT NULL COMMENT '表单id',
+  `audit_status` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  `audit_rmk` varchar(500) DEFAULT NULL COMMENT '审核反馈',
+  `audit_time` varchar(30) DEFAULT NULL COMMENT '审核日期',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  `img1` varchar(500) DEFAULT NULL COMMENT '正面',
+  `img2` varchar(500) DEFAULT NULL COMMENT '背面',
+  `img3` varchar(500) DEFAULT NULL COMMENT '手持',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_status` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `stype` varchar(50) NOT NULL COMMENT '类型',
+  `status` varchar(10) NOT NULL,
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建日期',
+  `modtime` varchar(30) DEFAULT NULL COMMENT '更新日期',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `openid` varchar(100) NOT NULL COMMENT 'openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '开放平台ID',
+  `s_name` varchar(500) NOT NULL COMMENT '商家名称',
+  `isopen_biaoyu` varchar(10) DEFAULT '0' COMMENT '标语开关',
+  `biaoyu` varchar(200) DEFAULT NULL COMMENT '标语内容',
+  `s_tag` text COMMENT '自定义标签',
+  `s_phoneperson` varchar(100) NOT NULL COMMENT '联系人',
+  `s_phone` varchar(100) NOT NULL COMMENT '联系电话',
+  `s_junjia` float DEFAULT '0' COMMENT '均价',
+  `img_store_mentou` varchar(500) DEFAULT NULL COMMENT '门头照片',
+  `img_store_yingyezz` varchar(500) DEFAULT NULL COMMENT '营业执照',
+  `imgs_banner` text COMMENT '图片记录集合',
+  `time_start` varchar(30) DEFAULT NULL COMMENT '营业时间-开始',
+  `store_m_type` varchar(100) DEFAULT NULL COMMENT '主分类',
+  `store_m_typeid` varchar(50) DEFAULT NULL COMMENT '主分类ID',
+  `store_p_type` varchar(100) DEFAULT NULL COMMENT '子分类',
+  `store_p_typeid` varchar(50) DEFAULT NULL COMMENT '子分类ID',
+  `loc_address` varchar(500) NOT NULL COMMENT '位置',
+  `loc_lon` varchar(100) NOT NULL COMMENT '经度',
+  `loc_lat` varchar(100) NOT NULL COMMENT '纬度',
+  `loc_nation` varchar(50) DEFAULT NULL COMMENT '位置国家',
+  `loc_province` varchar(50) DEFAULT NULL COMMENT '位置省',
+  `loc_city` varchar(50) DEFAULT NULL COMMENT '位置市',
+  `loc_district` varchar(50) DEFAULT NULL COMMENT '位置区',
+  `loc_city_code` varchar(50) DEFAULT NULL COMMENT '位置城市代码',
+  `loc_nation_code` varchar(50) DEFAULT NULL COMMENT '位置国家代码',
+  `rmk_store` text COMMENT '店铺介绍',
+  `rmk_goumai` text COMMENT '购买须知',
+  `score` float DEFAULT '5' COMMENT '店铺总评分',
+  `enable` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  `cnt_look` int(11) DEFAULT '1' COMMENT '浏览量',
+  `ruzzhu_money` float DEFAULT '0' COMMENT '入驻金额',
+  `paystatus` varchar(10) DEFAULT '0' COMMENT '支付状态',
+  `transaction_id` varchar(32) DEFAULT NULL COMMENT '交易单号',
+  `pay_channel` varchar(30) DEFAULT NULL COMMENT '支付频道',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建日期',
+  `last_time` varchar(30) DEFAULT NULL COMMENT '店铺有效期',
+  `store_m_typeid_idx` int(11) DEFAULT '0' COMMENT '主分类IDx',
+  `store_p_typeid_idx` int(11) DEFAULT '0' COMMENT '子分类IDx',
+  `sh_time` varchar(30) DEFAULT NULL COMMENT '审核日期',
+  `sh_str` text COMMENT '审核回馈',
+  `pay_time` varchar(30) DEFAULT NULL COMMENT '支付日期',
+  `cnt_comment` int(11) DEFAULT '1' COMMENT '点评量',
+  `imgs_list` text COMMENT '图片集',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store_comments` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '消息的识别码',
+  `s_id` varchar(100) NOT NULL COMMENT '店铺ID',
+  `goods_id` varchar(100) DEFAULT NULL COMMENT '商品ID',
+  `score` float DEFAULT '5' COMMENT '商品评分',
+  `pl_ctype` varchar(50) DEFAULT NULL COMMENT '类型',
+  `attr` varchar(100) DEFAULT NULL COMMENT '归属ID',
+  `mcontent` text COMMENT '评语',
+  `imgs_list` text COMMENT '评论附图',
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `formID` varchar(100) DEFAULT NULL COMMENT '表单ID',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store_goods` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `openid` varchar(100) NOT NULL COMMENT 'openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '开放平台ID',
+  `s_id` varchar(100) NOT NULL COMMENT '店铺ID',
+  `imgs_list` text COMMENT '商品图片集',
+  `g_type` varchar(10) DEFAULT NULL COMMENT '商品类型',
+  `g_name` varchar(300) DEFAULT NULL COMMENT '商品名',
+  `g_tag` text COMMENT '自定义标签',
+  `g_houhuititle` varchar(500) DEFAULT NULL COMMENT '优惠标题 ',
+  `g_cnt_all` int(11) DEFAULT '0' COMMENT '商品库存',
+  `g_cnt_sale` int(11) DEFAULT '0' COMMENT '商品售出数量',
+  `g_cnt_xiangou` int(11) DEFAULT '0' COMMENT '限购数量',
+  `money_mengshi` float DEFAULT '0' COMMENT '门市价',
+  `money_sale` float DEFAULT '0' COMMENT '实际售价',
+  `isopen_newkefu` varchar(10) DEFAULT '0' COMMENT '新客立减优惠开关',
+  `money_newkefu_reduction` float DEFAULT '0' COMMENT '新客立减优惠 价格',
+  `cnt_comment` float DEFAULT '0' COMMENT '评论条数',
+  `score` float DEFAULT '5' COMMENT '商品评分',
+  `tc_info` text COMMENT '商品详情',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  `last_time` varchar(30) DEFAULT NULL COMMENT '有效截止日期',
+  `s_name` varchar(200) DEFAULT NULL COMMENT '店铺名',
+  `isopen_last_time` varchar(10) DEFAULT '0' COMMENT '截止日期开关',
+  `enable` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  `sh_time` varchar(30) DEFAULT NULL COMMENT '审核日期',
+  `sh_str` text COMMENT '审核回馈',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store_hxmanager` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `openid` varchar(100) NOT NULL COMMENT 'openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '开放平台ID',
+  `uid` varchar(50) NOT NULL COMMENT '核销人员编号',
+  `uppassword` varchar(300) NOT NULL COMMENT '核销登录密码',
+  `u_nickname` varchar(100) NOT NULL COMMENT '微信呢称',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '微信头像',
+  `u_level` varchar(10) DEFAULT '1' COMMENT '核销人员等级',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `enable` varchar(10) DEFAULT '0' COMMENT '审核状态',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store_mtype` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(50) NOT NULL COMMENT '识别码',
+  `tname` varchar(100) NOT NULL COMMENT '分类名',
+  `send_money` float DEFAULT '0' COMMENT '发帖费用',
+  `type` varchar(10) DEFAULT '0' COMMENT '分类类型',
+  `rd_wx_appid` varchar(100) DEFAULT '' COMMENT '小程序id',
+  `rd_wx_path` varchar(500) DEFAULT '' COMMENT '小程序路径',
+  `rd_wx_extradata` varchar(500) DEFAULT '' COMMENT '小程序参数',
+  `rd_wx_envversion` varchar(100) DEFAULT '' COMMENT '小程序版本',
+  `rd_tw_title` varchar(500) DEFAULT '' COMMENT '打开图文-标题',
+  `rd_tw_imglist` text COMMENT '打开图文-图片集',
+  `rd_tw_rmk` text COMMENT '打开图文-内容',
+  `warn_words` text COMMENT '敏感词',
+  `is_audit` varchar(10) DEFAULT '0' COMMENT '是否需要审核',
+  `img` varchar(500) DEFAULT NULL COMMENT '图标',
+  `show_index` varchar(10) DEFAULT '0' COMMENT '首页显示',
+  `pxh` int(11) DEFAULT '0' COMMENT '排序',
+  `attr` varchar(50) DEFAULT '0' COMMENT '归属',
+  `manager_openid` varchar(500) DEFAULT NULL COMMENT '管理员open_id',
+  `enable` varchar(10) DEFAULT '1' COMMENT '启用状态',
+  `is_parent_open` varchar(10) DEFAULT '0' COMMENT '是否开启子分类',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=416 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store_order` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `qr_oncode` varchar(100) NOT NULL COMMENT '核销码',
+  `openid` varchar(100) NOT NULL COMMENT 'openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '开放平台ID',
+  `u_nickname` varchar(100) NOT NULL COMMENT '微信呢称',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '微信头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `total_money` float DEFAULT '0' COMMENT '订单总价',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `last_time_pay` varchar(30) NOT NULL COMMENT '截止支付时间',
+  `time_pay` varchar(30) DEFAULT NULL COMMENT '支付日期',
+  `status` varchar(10) DEFAULT NULL COMMENT '订单状态',
+  `hexiao_use` varchar(10) DEFAULT '0' COMMENT '是否核销',
+  `hexiao_uid` varchar(100) DEFAULT NULL COMMENT '核销工号',
+  `hexiao_user` varchar(100) DEFAULT NULL COMMENT '核销人',
+  `hexiao_time` varchar(30) DEFAULT NULL COMMENT '核销时间',
+  `store_openid` varchar(100) NOT NULL COMMENT '商家openid',
+  `s_id` varchar(100) DEFAULT NULL COMMENT '店铺ID',
+  `goods_id` varchar(100) DEFAULT NULL COMMENT '商品ID',
+  `is_comment` varchar(10) DEFAULT '0' COMMENT '是否评论',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_store_order_info` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `openid` varchar(100) NOT NULL COMMENT 'openid',
+  `unionid` varchar(100) DEFAULT NULL COMMENT '开放平台ID',
+  `order_id` varchar(100) NOT NULL COMMENT '订单ID',
+  `s_id` varchar(100) NOT NULL COMMENT '店铺ID',
+  `goods_id` varchar(100) NOT NULL COMMENT '商品ID',
+  `g_name` varchar(300) DEFAULT NULL COMMENT '商品名',
+  `money_pay` float DEFAULT '0' COMMENT '实际支付价格',
+  `cnt_buy` int(11) DEFAULT '1' COMMENT '购买数量',
+  `hexiao_uid` varchar(100) DEFAULT NULL COMMENT '核销工号',
+  `hexiao_user` varchar(100) DEFAULT NULL COMMENT '核销人',
+  `hexiao_time` varchar(30) DEFAULT NULL COMMENT '核销时间',
+  `last_time` varchar(30) DEFAULT NULL COMMENT '使用截止日期',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `g_type` varchar(10) DEFAULT NULL COMMENT '商品类型',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_user` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `u_nickname` varchar(100) NOT NULL COMMENT '发布者-姓名',
+  `u_city` varchar(100) DEFAULT NULL COMMENT '发布者-城市',
+  `u_sex` varchar(10) DEFAULT NULL COMMENT '性别',
+  `u_openid` varchar(100) NOT NULL COMMENT '发布者-openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '发布者-统一ID',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '发布者-头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `u_address` varchar(500) DEFAULT NULL COMMENT '位置',
+  `u_lon` varchar(100) DEFAULT NULL COMMENT '经度',
+  `u_lat` varchar(100) DEFAULT NULL COMMENT '纬度',
+  `u_rmk` varchar(200) DEFAULT NULL COMMENT '介绍',
+  `crtime` varchar(20) DEFAULT NULL COMMENT '创建时间',
+  `is_black` varchar(10) DEFAULT '0' COMMENT '是否黑名单',
+  `enable` varchar(10) DEFAULT '1' COMMENT '启用状态',
+  `tag_sm` varchar(10) DEFAULT '0' COMMENT '实名标记',
+  `account` float DEFAULT '0' COMMENT '账户',
+  `integral` float DEFAULT '0' COMMENT '积分',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_wys_tongcheng_user_account_tx` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uniacid` int(10) NOT NULL,
+  `oncode` varchar(100) NOT NULL COMMENT '识别码',
+  `u_openid` varchar(100) NOT NULL COMMENT '用户openid',
+  `u_unionid` varchar(100) DEFAULT NULL COMMENT '开放平台ID',
+  `u_nickname` varchar(100) NOT NULL COMMENT '微信呢称',
+  `u_avatarurl` varchar(500) DEFAULT NULL COMMENT '微信头像',
+  `u_phone` varchar(30) DEFAULT NULL COMMENT '联系电话',
+  `accout` varchar(100) NOT NULL COMMENT '提现前帐户总金额',
+  `money` varchar(100) NOT NULL COMMENT '提现额度',
+  `money_sj` varchar(100) NOT NULL COMMENT '实际提现到帐',
+  `money_sxf` varchar(100) NOT NULL COMMENT '提现手续费',
+  `money_sxfl` varchar(100) NOT NULL COMMENT '手续费率%',
+  `formID` varchar(100) NOT NULL COMMENT '推送码',
+  `crtime` varchar(30) DEFAULT NULL COMMENT '创建日期',
+  `enable` varchar(10) DEFAULT '0' COMMENT '状态',
+  `time_tx` varchar(30) DEFAULT NULL COMMENT '提现时间',
+  `pwd_tx` varchar(100) DEFAULT NULL COMMENT '提现动态密码',
+  `status_tx` varchar(50) DEFAULT NULL COMMENT '提现状态',
+  `rmk_tx` varchar(500) DEFAULT NULL COMMENT '提现反馈',
+  `partner_trade_no` varchar(200) DEFAULT NULL COMMENT '商户订单号',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_wys_tongcheng_banner`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_comments`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_goods`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_jubao`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_manager`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_msg`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_msg_imgs`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_msg_placed_top_record`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_mtype`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_payorder`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_paytaocan`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_salebanner`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_smrz`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_status`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store_comments`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store_goods`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store_hxmanager`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store_mtype`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store_order`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_store_order_info`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_user`;
+DROP TABLE IF EXISTS `ims_wys_tongcheng_user_account_tx`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

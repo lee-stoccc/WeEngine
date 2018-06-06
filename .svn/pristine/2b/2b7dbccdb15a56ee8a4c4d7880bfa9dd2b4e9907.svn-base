@@ -1,0 +1,26 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: luwei
+ * Date: 2017/6/14
+ * Time: 9:36
+ */
+
+namespace app\models;
+
+
+class Model extends \yii\base\Model
+{
+    public function getModelError($model = null)
+    {
+        if (!$model)
+            $model = $this;
+        $Err = [];
+        foreach ($model->errors as $errors)
+            array_push($Err, [
+                'code' => 1,
+                'msg' => $errors[0],
+            ]);
+        return $Err;
+    }
+}

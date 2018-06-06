@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6,0.7,0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[房产中介小程序]]></name>
+		<identifie><![CDATA[weixinmao_house]]></identifie>
+		<version><![CDATA[2.8]]></version>
+		<type><![CDATA[enterprise]]></type>
+		<ability><![CDATA[一款房产中介小程序]]></ability>
+		<description><![CDATA[一款房产中介小程序]]></description>
+		<author><![CDATA[起航网络工作室]]></author>
+        <url><![CDATA[http://pxzteam.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="企业介绍" do="intro" state="" direct="false" />
+			<entry title="新闻分类" do="cate" state="" direct="false" />
+			<entry title="新闻管理" do="content" state="" direct="false" />
+			<entry title="楼盘管理" do="newhouse" state="" direct="false" />
+			<entry title="二手房管理" do="oldhouse" state="" direct="false" />
+			<entry title="房屋出租管理" do="lethouse" state="" direct="false" />
+			<entry title="房屋买卖管理" do="salelist" state="" direct="false" />
+			<entry title="楼盘相册管理" do="case" state="" direct="false" />
+			<entry title="户型图管理" do="house" state="" direct="false" />
+			<entry title="幻灯片管理" do="adv" state="" direct="false" />
+			<entry title="区域管理" do="area" state="" direct="false" />
+			<entry title="楼盘售价管理" do="houseprice" state="" direct="false" />
+			<entry title="二手房售价管理" do="oldhouseprice" state="" direct="false" />
+			<entry title="出租房租金管理" do="lethouseprice" state="" direct="false" />
+			<entry title="经纪人管理" do="agent" state="" direct="false" />
+			<entry title="购房活动管理" do="active" state="" direct="false" />
+			<entry title="申请入驻" do="message" state="" direct="false" />
+			<entry title="订单管理" do="order" state="" direct="false" />
+			<entry title="置顶支付管理" do="toplist" state="" direct="false" />
+		</menu>
+		<page>
+			<entry title="企业介绍" do="intro" state="" direct="false" />
+			<entry title="新闻分类" do="cate" state="" direct="false" />
+			<entry title="新闻管理" do="content" state="" direct="false" />
+			<entry title="楼盘管理" do="newhouse" state="" direct="false" />
+			<entry title="二手房管理" do="oldhouse" state="" direct="false" />
+			<entry title="房屋出租管理" do="lethouse" state="" direct="false" />
+			<entry title="房屋买卖管理" do="salelist" state="" direct="false" />
+			<entry title="楼盘相册管理" do="case" state="" direct="false" />
+			<entry title="户型图管理" do="house" state="" direct="false" />
+			<entry title="幻灯片管理" do="adv" state="" direct="false" />
+			<entry title="区域管理" do="area" state="" direct="false" />
+			<entry title="楼盘售价管理" do="houseprice" state="" direct="false" />
+			<entry title="二手房售价管理" do="oldhouseprice" state="" direct="false" />
+			<entry title="出租房租金管理" do="lethouseprice" state="" direct="false" />
+			<entry title="经纪人管理" do="agent" state="" direct="false" />
+			<entry title="购房活动管理" do="active" state="" direct="false" />
+			<entry title="申请入驻" do="message" state="" direct="false" />
+			<entry title="订单管理" do="order" state="" direct="false" />
+			<entry title="置顶支付管理" do="toplist" state="" direct="false" />
+			<entry title="首页" do="/weixinmao_house/pages/index/index" state="" direct="false" />
+			<entry title="楼盘列表" do="/weixinmao_house/pages/newhouselist/index" state="" direct="false" />
+			<entry title="楼盘详情" do="/weixinmao_house/pages/newhousedetail/index" state="" direct="false" />
+			<entry title="二手房列表" do="/weixinmao_house/pages/oldhouselist/index" state="" direct="false" />
+			<entry title="二手房详情" do="/weixinmao_house/pages/oldhousedetail/index" state="" direct="false" />
+			<entry title="房产资讯" do="/weixinmao_house/pages/article/index" state="" direct="false" />
+			<entry title="资讯详情" do="/weixinmao_house/pages/newsdetail/index" state="" direct="false" />
+			<entry title="申请入驻" do="/weixinmao_house/pages/message/index" state="" direct="false" />
+			<entry title="房屋买卖" do="/weixinmao_house/pages/salelist/index" state="" direct="false" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_active` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`title` varchar(200),
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`content` text NOT NULL COMMENT '文章内容',
+`sort` int(10) DEFAULT '0',
+`pid` int(10) DEFAULT '0',
+`hits` int(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`thumb` varchar(200),
+`money` float(10,2) DEFAULT '0.00',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_adv` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`weid` int(11) DEFAULT '0',
+`advname` varchar(50) DEFAULT '',
+`link` varchar(255) DEFAULT '',
+`thumb` varchar(255) DEFAULT '',
+`displayorder` int(11) DEFAULT '0',
+`enabled` int(11) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `indx_weid` (`weid`) USING BTREE,
+KEY `indx_enabled` (`enabled`) USING BTREE,
+KEY `indx_displayorder` (`displayorder`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_agent` (
+`id` int(10) NOT NULL AUTO_INCREMENT,
+`name` varchar(50),
+`password` varchar(50),
+`thumb` text,
+`tel` varchar(30),
+`qq` varchar(30),
+`address` varchar(50),
+`createtime` int(10) DEFAULT '0',
+`uniacid` int(10) DEFAULT '0',
+`uid` int(10) DEFAULT '0',
+`enabled` tinyint(10) DEFAULT '0',
+`content` text,
+`sort` int(10) DEFAULT '0',
+`intro` varchar(200),
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_area` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`uniacid` int(11) DEFAULT '0',
+`name` varchar(50) DEFAULT '',
+`sort` int(11) DEFAULT '0',
+`enabled` int(11) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `indx_weid` (`uniacid`) USING BTREE,
+KEY `indx_enabled` (`enabled`) USING BTREE,
+KEY `indx_displayorder` (`sort`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_baoming` (
+`id` int(10) NOT NULL AUTO_INCREMENT,
+`name` varchar(50),
+`tel` varchar(30),
+`companyname` varchar(50),
+`createtime` int(10) DEFAULT '0',
+`uniacid` int(10) DEFAULT '0',
+`aid` int(10) DEFAULT '10',
+`pid` int(10) DEFAULT '10',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_case` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`title` varchar(200),
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`content` text NOT NULL COMMENT '文章内容',
+`sort` int(10) DEFAULT '0',
+`hits` int(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`thumb` varchar(200),
+`isrecommand` tinyint(10) DEFAULT '0',
+`teamid` int(10) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_category` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+`name` varchar(50) NOT NULL COMMENT '分类名称',
+`thumb` varchar(255) NOT NULL COMMENT '分类图片',
+`parentid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID,0为第一级',
+`isrecommand` int(10) DEFAULT '0',
+`description` varchar(500) NOT NULL COMMENT '分类介绍',
+`displayorder` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+`enabled` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否开启',
+`model` int(10) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_content` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`title` varchar(200),
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`content` text NOT NULL COMMENT '文章内容',
+`sort` int(10) DEFAULT '0',
+`pid` int(10) DEFAULT '0',
+`sid` int(10) DEFAULT '0',
+`hits` int(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`thumb` varchar(200),
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_house` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`title` varchar(200),
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`content` text NOT NULL COMMENT '文章内容',
+`sort` int(10) DEFAULT '0',
+`hits` int(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`thumb` varchar(200),
+`isrecommand` tinyint(10) DEFAULT '0',
+`teamid` int(10) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_houseinfo` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`housename` varchar(200),
+`companyname` varchar(50),
+`houseprice` int(10) DEFAULT '0',
+`housetype` int(10) DEFAULT '0',
+`houseareaid` int(10) DEFAULT '10',
+`houseaddress` varchar(30),
+`housesaleaddress` varchar(30),
+`houserate` varchar(30),
+`housegreenrate` varchar(50),
+`housecovered` varchar(50),
+`buildarea` varchar(60),
+`opensaletime` varchar(60),
+`staytime` varchar(60),
+`productspecial` varchar(60),
+`houseschool` varchar(60),
+`housebus` varchar(60),
+`housestatus` tinyint(10) DEFAULT '0',
+`thumb` varchar(200),
+`isrecommand` tinyint(10) DEFAULT '0',
+`sort` int(10) DEFAULT '0',
+`createtime` int(10) DEFAULT '0',
+`content` text,
+`tel` varchar(30),
+`thumb_url` text,
+`lng` decimal(10,6) DEFAULT '0.000000',
+`lat` decimal(10,6) DEFAULT '0.000000',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_houseprice` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`uniacid` int(11) DEFAULT '0',
+`name` varchar(50) DEFAULT '',
+`beginprice` int(10) DEFAULT '0',
+`endprice` int(10) DEFAULT '0',
+`sort` int(11) DEFAULT '0',
+`enabled` int(11) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `indx_weid` (`uniacid`) USING BTREE,
+KEY `indx_enabled` (`enabled`) USING BTREE,
+KEY `indx_displayorder` (`sort`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_intro` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`content` text NOT NULL COMMENT '文章内容',
+`name` varchar(100),
+`logo` varchar(150),
+`address` varchar(200),
+`tel` varchar(50),
+`opentime` varchar(30),
+`lng` decimal(10,6) DEFAULT '0.000000',
+`lat` decimal(10,6) DEFAULT '0.000000',
+`qq` varchar(50),
+`email` varchar(50),
+`city` varchar(30),
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_lethouseinfo` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`title` varchar(200),
+`money` int(10) DEFAULT '0',
+`dmoney` float(10,2) DEFAULT '0.00',
+`roomid` int(10) DEFAULT '0',
+`roomtype` varchar(30),
+`housetype` int(10) DEFAULT '0',
+`houselabel` varchar(200),
+`letway` tinyint(10) DEFAULT '1',
+`payway` varchar(30),
+`houseareaid` int(10) DEFAULT '10',
+`area` varchar(30),
+`floor` varchar(30),
+`direction` varchar(30),
+`decorate` varchar(50),
+`year` varchar(50),
+`source` tinyint(10) DEFAULT '0',
+`housearea` varchar(60),
+`address` varchar(60),
+`special` varchar(60),
+`lng` decimal(10,6) DEFAULT '0.000000',
+`lat` decimal(10,6) DEFAULT '0.000000',
+`thumb` varchar(200),
+`thumb_url` text,
+`isrecommand` tinyint(10) DEFAULT '0',
+`sort` int(10) DEFAULT '0',
+`createtime` int(10) DEFAULT '0',
+`content` text,
+`name` varchar(50),
+`tel` varchar(30),
+`salestatus` tinyint(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`ispub` tinyint(10) DEFAULT '0',
+`ischeck` tinyint(10) DEFAULT '0',
+`uid` int(10) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_lethouseprice` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`uniacid` int(11) DEFAULT '0',
+`name` varchar(50) DEFAULT '',
+`beginprice` int(10) DEFAULT '0',
+`endprice` int(10) DEFAULT '0',
+`sort` int(11) DEFAULT '0',
+`enabled` int(11) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `indx_weid` (`uniacid`) USING BTREE,
+KEY `indx_enabled` (`enabled`) USING BTREE,
+KEY `indx_displayorder` (`sort`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_message` (
+`id` int(10) NOT NULL AUTO_INCREMENT,
+`name` varchar(50),
+`tel` varchar(30),
+`companyname` varchar(50),
+`createtime` int(10) DEFAULT '0',
+`uniacid` int(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`uid` int(10) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldhouseinfo` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`title` varchar(200),
+`saleprice` int(10) DEFAULT '0',
+`perprice` int(10) DEFAULT '0',
+`housestyle` varchar(30),
+`housetype` int(10) DEFAULT '0',
+`houseareaid` int(10) DEFAULT '10',
+`area` varchar(30),
+`floor` varchar(30),
+`direction` varchar(30),
+`decorate` varchar(50),
+`year` varchar(50),
+`source` tinyint(10) DEFAULT '0',
+`housearea` varchar(60),
+`address` varchar(60),
+`special` varchar(60),
+`lng` decimal(10,6) DEFAULT '0.000000',
+`lat` decimal(10,6) DEFAULT '0.000000',
+`thumb` varchar(200),
+`thumb_url` text,
+`isrecommand` tinyint(10) DEFAULT '0',
+`sort` int(10) DEFAULT '0',
+`createtime` int(10) DEFAULT '0',
+`content` text,
+`name` varchar(50),
+`tel` varchar(30),
+`salestatus` tinyint(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`ispub` tinyint(10) DEFAULT '0',
+`ischeck` tinyint(10) DEFAULT '0',
+`uid` int(10) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldhouseprice` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`uniacid` int(11) DEFAULT '0',
+`name` varchar(50) DEFAULT '',
+`beginprice` int(10) DEFAULT '0',
+`endprice` int(10) DEFAULT '0',
+`sort` int(11) DEFAULT '0',
+`enabled` int(11) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `indx_weid` (`uniacid`) USING BTREE,
+KEY `indx_enabled` (`enabled`) USING BTREE,
+KEY `indx_displayorder` (`sort`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_order` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`pid` int(10) DEFAULT '0',
+`uid` int(10),
+`name` varchar(30),
+`tel` varchar(30),
+`orderid` varchar(100),
+`money` float(10,2) DEFAULT '0.00',
+`paytime` int(10) DEFAULT '0',
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`paid` tinyint(10) DEFAULT '0',
+`status` tinyint(10) DEFAULT '0',
+`title` varchar(50),
+`type` varchar(30),
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_saleinfo` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`houseareaid` int(10) DEFAULT '0',
+`special` varchar(60),
+`thumb_url` text,
+`isrecommand` tinyint(10) DEFAULT '0',
+`sort` int(10) DEFAULT '0',
+`createtime` int(10) DEFAULT '0',
+`content` text,
+`name` varchar(50),
+`tel` varchar(30),
+`status` tinyint(10) NOT NULL DEFAULT '0',
+`ispub` tinyint(10) DEFAULT '0',
+`ischeck` tinyint(10) DEFAULT '0',
+`uid` int(10) NOT NULL DEFAULT '0',
+`type` tinyint(10) DEFAULT '0',
+`hits` int(10) DEFAULT '0',
+`toplistid` mediumint(10) DEFAULT '0',
+`endtime` int(10) DEFAULT '0',
+`paid` tinyint(10) DEFAULT '0',
+PRIMARY KEY (`id`,`status`,`uid`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_toplist` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`uniacid` int(11) DEFAULT '0',
+`money` float(10,2) DEFAULT '0.00',
+`days` mediumint(10) DEFAULT '0',
+`sort` int(11) DEFAULT '0',
+`enabled` int(11) DEFAULT '0',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `indx_weid` (`uniacid`) USING BTREE,
+KEY `indx_enabled` (`enabled`) USING BTREE,
+KEY `indx_displayorder` (`sort`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_userinfo` (
+`id` int(10) unsigned NOT NULL COMMENT '主键' AUTO_INCREMENT,
+`uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+`uid` int(10),
+`name` varchar(200),
+`tel` varchar(60),
+`createtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+`status` tinyint(10) DEFAULT '0',
+`avatarUrl` varchar(200),
+PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

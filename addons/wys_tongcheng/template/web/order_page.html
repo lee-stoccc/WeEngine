@@ -1,0 +1,610 @@
+{template 'common/header'}
+{template 'web/AJcommonCssAndJs'}
+{if $pagediv=='list'}
+<style type="text/css">
+  .jumbotron{
+    padding:22px 2px!important;
+    margin-bottom:0;
+    text-align: center;
+  }
+</style>
+
+<!-- 列表 -->
+<div class="main">
+<ul class="nav nav-tabs">
+<li class="active"><a href="{php echo $this->createWebUrl($h_name.'_action',array('op'=>'list'));}">所有{php echo urldecode($h_title);}</a></li>
+<!-- <li><a href="{php echo $this->createWebUrl($h_name.'_action',array('h_title'=>$h_title,'h_name'=>$h_name,'h_tb'=>$h_tb,'op'=>'add'));}">添加{php echo urldecode($h_title);}</a></li> -->
+</ul>
+
+
+<div class="panel panel-info" style="margin-bottom:5px;">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="" method="POST" class="form-horizontal" role="form">
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="op" value="list_search">
+            <div class="form-group">
+                <label class="col-md-4 control-label">查询字段(用户/手机号):</label>
+                <div class="col-md-5">
+
+                    <input type="text" name="sql_text" class="form-control" value="{$sql_text}">
+                </div>
+
+                <div class="col-md-1">
+                    <button class="btn btn-default" type="submit" name="submit" value="搜索">
+                        <i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+
+<div style="padding-top:5px;"></div>
+
+<form action="" class="form-horizontal form" method="post" autocomplete="off">
+<input type="hidden" name="token" value="{$_W['token']}" />
+<input type="hidden" name="op" value="list">
+<div class="panel panel-default">
+
+
+<div class="panel-heading" id="paoject_info">收支统计</div>
+<div class="panel-body">
+
+
+
+<div class="form-group">
+<div class="col-sm-2">
+ 
+<div class="jumbotron">
+  (微信)消息总收支:
+  <div>￥：<font color="red">{$money_allmsg}</font>元</div>
+</div>
+
+</div>
+<div class="col-sm-2">
+ 
+ <div class="jumbotron">
+  (微信)广告位总收支:
+  <div>￥：<font color="red">{$money_allbanner}</font>元</div>
+</div>
+
+</div>
+
+
+
+<div class="col-sm-2">
+ 
+ <div class="jumbotron">
+ (微信) 打赏总收支:
+ <div>￥：<font color="red">{$money_allshang}</font>元</div>
+</div>
+
+</div>
+
+<div class="col-sm-2">
+ 
+ <div class="jumbotron">
+ (微信) 充值:
+ <div>￥：<font color="red">{$money_allpay}</font>元</div>
+</div>
+
+</div>
+
+<div class="col-sm-2">
+ 
+ <div class="jumbotron">
+ (微信)刷新消息:
+ <div>￥：<font color="red">{$money_allrefresh}</font>元</div>
+</div>
+
+</div>
+
+<div class="col-sm-2" style="background:#336633;">
+
+<div class="jumbotron" style="background:#336633;color:#ffffff!important;">
+ (微信) 总收支:
+ <div>￥：<font color="red">{$money_allapy}</font>元</div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+<div class="col-sm-2">
+<div class="jumbotron">
+  (平台打赏扣除)总收支:
+  <div>￥：<font color="red">{$money_allsystemkc_shang}</font>元</div>
+</div>
+</div>
+
+
+<div class="col-sm-2">
+<div class="jumbotron">
+  (后台充值)帐户:
+  <div>￥：<font color="red">{$money_back_pay_account}</font>元</div>
+</div>
+</div>
+
+<div class="col-sm-2">
+<div class="jumbotron">
+  (后台充值)积分:
+  <div>￥：<font color="red">{$money_back_pay_integral}</font>元</div>
+</div>
+</div>
+
+
+</div>
+
+
+</div>
+
+<div class="panel-heading">
+<input type="checkbox" name="" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});">选择
+<input type="submit" name="delete_selectd" class="btn btn-primary" value="选中删除">
+
+<span style="color:green;padding-left:10px;"></span>
+</div>
+        
+<div class="panel-body">
+
+<table class="table table-hover tb_center">
+<thead class="navbar-inner">
+<tr>
+<th style="width:60px;">删?</th> 
+<!-- <th style="width:60px;">ID</th>		 -->				
+<!-- <div style="border-bottom:1px solid #eaeaea;">幻灯图片</div> -->
+<th style="width:80px;" >支付方式</th>
+<th style="width:160px;" >支付类型</th>
+<th style="width:80px;" >支付状态</th>
+<th style="width:120px;">订单费用</th>
+<th style="width:80px;" >用户</th>
+<th style="width:80px;" >用户电话</th>
+<!-- <th style="width:40px;">订单号</th> -->
+<th style="width:80px;" >订单备注</th>
+<th style="width:80px;" >系统备注</th>
+<th style="width:80px;" >支付时间</th>
+<th style="text-align:center;">操作</th>
+</tr>
+</thead>
+<tbody>
+{if $list}
+{loop $list $index $row}
+<tr>
+
+<td><input type="checkbox" name="ids[]" value="{$row['id']}" class=""></td>
+<td>
+
+{if $row['pay_channel'] == 'wx'}
+<font color="green">微信</font>
+{else if $row['pay_channel'] == 'account'}
+<font color="blue">帐户支付</font>
+{else if $row['pay_channel'] == 'integral'}
+<font color="red">积分支付</font>
+{else if $row['pay_channel'] == 'back_pay'}
+<font color="#000079">后台充值</font>
+{/if}
+<div>{$row['pay_channel']} <!--  {$row['openid_y']} -->
+
+  <!-- {$row['openid_y']} --> </div>
+
+</td>
+
+<td>
+
+<!-- {$row['ordertype']} <> {$row['random_code']}<>{$row['dt_id']} -->
+{if $row['ordertype'] == 'msg'}
+<font color="green">消息或置顶付费</font>
+{else if $row['ordertype'] == 'banner'}
+<font color="blue">租借幻灯片</font>
+{else if $row['ordertype'] == 'shang'}
+<font color="red">打赏</font>
+{else if $row['ordertype'] == 'pay'}
+<font color="red">用户充值</font>
+{else if $row['ordertype'] == 'back_pay'}
+<font color="#000079">后台充值</font>
+{else if $row['ordertype'] == 'msg_refresh_crtime'}
+<font color="#000079">刷新消息日期</font>
+{else if $row['ordertype'] == 'store_ruzhu'}
+<font color="#000079">店铺入驻</font>
+{else if $row['ordertype'] == 'store_order'}
+<font color="#000079">店铺订单</font>
+{else if $row['ordertype'] == 'account_tx'}
+<font color="#000079">帐户提现</font>
+
+{/if}
+
+</td>
+<td>
+{if $row['paystate'] == '1'}
+支付回调
+{else if $row['paystate'] == '2'}
+二次验证
+{/if}
+
+</td>
+<td>
+{if $row['pay_channel'] == 'back_pay'}
+<div>帐户:<font color="red" weight="bold">{$row['total_money']}</font>元,积分:{$row['system_money']}
+{else}
+
+{if $row['pay_channel'] == 'integral'}
+<font color="red" weight="bold">{php echo round(floatval($row['total_money'])*floatval($integral_pay_bl),2);}</font>积分
+{else}
+￥:<font color="red" weight="bold">{$row['total_money']}</font> 元
+{/if}
+
+{/if}
+</div>
+
+  </td>
+<td>{$row['u_name']}</td>
+<td>{$row['u_phone']}</td>
+
+<!-- <td>{$row['transaction_id']}</td> -->
+<td>
+{$row['orderrmk']}
+
+{if $row['ordertype'] == 'account_tx'}
+实际到帐{$row['user_money']}元,手续费{$row['system_money']}元
+{else}
+{if $row['user_money']>0}
+用户收入
+{$row['user_money']}元
+{/if}
+{/if}
+
+
+</td>
+<td>{$row['system_rmk']}</td>
+
+
+
+
+<td>{php echo date('y-m-d H:i:s',$row['crtime'])}</td>
+
+
+<td align="center">
+
+{if $row['dt_id']!='' && !( $row['ordertype'] == 'store_order' || $row['ordertype'] == 'store_ruzhu' || $row['ordertype'] == 'account_tx')}
+
+<a href="{php echo $this->createWebUrl($h_name.'_action', array('id'=>$row['dt_id'],'h_title'=>$h_title,'h_name'=>$h_name,'h_tb'=>$h_tb,'op'=>'look'))}" class='btn btn-default btn-sm' target='_blank'>查看信息</a>
+{/if}
+
+
+<a href="{php echo $this->createWebUrl($h_name.'_action', array('id'=>$row['id'],'h_tb'=>$h_tb,'op'=>'del'))}" title="删除" class='btn btn-default btn-sm' onclick="return confirm('确定要删除吗?')"><i class="fa fa-remove"></i>删除</a>
+</div>
+</td>
+</tr>
+{/loop}
+{else}
+<tr>
+<td colspan="5" align='center'>暂无数据</td>
+</tr>
+{/if}
+</tbody>
+</table>
+{$result['pager']} 
+        </div>
+    </div>
+</form>
+</div>
+{else}
+<!-- 表单 -->
+<div class="main">
+<ul class="nav nav-tabs">
+<li><a href="{php echo $this->createWebUrl($h_name.'_action',array('op'=>'list'));}">
+所有{php echo urldecode($h_title);}</a></li>
+<li class="active">
+<a href="#">
+{if !empty($id)}修改{else}添加{/if}{php echo urldecode($h_title);}</a></li>
+</ul>
+<div style="padding-top:5px;"></div>   
+<div class="">
+<form action="" class="form-horizontal form" method="post" autocomplete="off">
+<input type="hidden" name="id" value="{$det['id']}">
+<input type="hidden" name="op" value="{$_GPC['op']}">
+<input type="hidden" name="token" value="{$_W['token']}" />		
+
+  <div class="panel panel-default">
+    <div class="panel-heading" id="paoject_info">
+      幻片信息主体
+    </div>
+    <div class="panel-body">
+      
+<div class="form-group">
+<label class="col-md-2 control-label"><i class="c_red">*</i>标题：</label>
+<div class="col-sm-8">
+<input type="text" required class="form-control" name="title" autocomplete="off" value="{$det['title']}" />
+</div></div>
+
+<div class="form-group">
+<label class="col-md-2 control-label"><i class="c_red">*</i>图片(比例:16:9宽*高)</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+{php echo tpl_form_field_image('img',$det['img']);}
+</div></div>
+</div>
+
+
+<div class="form-group">
+<label class="col-md-2 control-label"><i class="c_red">*</i>所属栏目</label>
+<div class="col-sm-8">
+
+<input type="hidden" name="btypename" id="btypename" value="首页幻灯片">
+<select required name="btype" id="btype" class="form-control" onchange="getBtypeName(this);">
+<option value="0">首页幻灯片</option>
+{loop $mtypelist $index $item}
+<option {if $item['id'] == $det['btype']} selected {/if} value="{$item['id']}">{$item['tname']}</option>
+{/loop}
+</select>
+
+</div>
+</div>
+
+
+
+<div class="form-group">
+<label class="col-md-2 control-label">消息类型</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+<label class="btn btn-primary {if $det['msg_type']==1}active{/if}">
+<input type="radio" name="msg_type" value="1" {if $det['msg_type']==1}checked="true"{/if}>消息
+</label>
+<label class="btn btn-primary  {if $det['msg_type']==0}active{/if}">    
+<input type="radio" name="msg_type" value="0" {if $det['msg_type']==0}checked="true"{/if}>自定义
+</label></div></div>
+</div>
+
+<div class="form-group">
+<label class="col-md-2 control-label">跳转消息ID：</label>
+<div class="col-sm-8">
+<input type="number" class="form-control" name="mid" autocomplete="off" value="{$det['mid']}" />
+</div></div>
+
+
+<div class="form-group">
+<label class="col-md-2 control-label">自定义内容</label>
+<div class="col-sm-8">
+<div class="input-group">
+{php echo tpl_ueditor('content',$det['content']);}
+</div>
+</div>
+</div>
+
+
+<div class="form-group">
+<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序：</label>
+<div class="col-sm-8">
+<input type="number" class="form-control" name="pxh" autocomplete="off" value="{$det['pxh']}" />
+</div></div>
+
+
+
+
+<div class="form-group">
+<label class="col-md-2 control-label">启用状态</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+<label class="btn btn-primary {if $det['enable']==1}active{/if}">
+<input type="radio" name="enable" value="1" {if $det['enable']==1}checked="true"{/if}>是
+</label>
+<label class="btn btn-primary  {if $det['enable']==0}active{/if}">    
+<input type="radio" name="enable" value="0" {if $det['enable']==0}checked="true"{/if}>否
+</label></div></div>
+</div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading" id="paoject_info">
+      出租信息
+    </div>
+    <div class="panel-body">
+
+<div class="form-group">
+<label class="col-md-2 control-label">审核状态</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+<label class="btn btn-primary {if $det['audit_status']==1}active{/if}">
+<input type="radio" name="audit_status" value="1" {if $det['audit_status']==1}checked="true"{/if}>是
+</label>
+<label class="btn btn-primary  {if $det['audit_status']==0}active{/if}">    
+<input type="radio" name="audit_status" value="0" {if $det['audit_status']==0}checked="true"{/if}>否
+</label></div></div>
+</div>     
+  
+<div class="form-group">
+<label class="col-md-2 control-label">是否出租</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+<label class="btn btn-primary {if $det['is_sale']==1}active{/if}">
+<input type="radio" name="is_sale" value="1" {if $det['is_sale']==1}checked="true"{/if}>是
+</label>
+<label class="btn btn-primary  {if $det['is_sale']==0}active{/if}">    
+<input type="radio" name="is_sale" value="0" {if $det['is_sale']==0}checked="true"{/if}>否
+</label></div></div>
+</div>
+
+<div class="form-group">
+<label class="col-md-2 control-label"><i class="c_red">*</i>出租费用/天</label>
+<div class="col-sm-8"> 
+ <div class="input-group">
+  <span class="input-group-addon">￥</span>
+  <input type="number" required class="form-control" step="0.01" name="money" value="{$det['money']}" />  
+  <span class="input-group-addon">元/天</span>
+</div></div></div></div>
+
+<!-- <div class="form-group">
+<label class="col-md-2 control-label">出租状态</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+<label class="btn btn-primary {if $det['sale_status']==1}active{/if}">
+<input type="radio" name="sale_status" value="1" {if $det['sale_status']==1}checked="true"{/if}>已租
+</label>
+<label class="btn btn-primary  {if $det['sale_status']==0}active{/if}">    
+<input type="radio" name="sale_status" value="0" {if $det['sale_status']==0}checked="true"{/if}>未出租
+</label></div></div>
+</div> -->
+
+
+<div class="form-group">
+<label class="col-xs-12 col-sm-3 col-md-2 control-label">出租天数：</label>
+<div class="col-sm-8">
+<input type="number" class="form-control" name="days" autocomplete="off" value="{$det['days']}" />
+</div></div> 
+
+<div class="form-group">
+<label class="col-md-2 control-label">发布者Openid</label>
+<div class="col-sm-8">
+<textarea class="form-control" name="sale_openid" placeholder="发布者或管理员">{$det['sale_openid']}</textarea>                                  
+</div>
+</div>
+
+
+<div class="form-group">
+<label class="col-md-2 control-label"><i class="c_red">*</i>出租显示图片</label>
+<div class="col-sm-7">
+<div class="btn-group" data-toggle="buttons">
+{php echo tpl_form_field_image('sale_img',$det['sale_img']);}
+</div></div>
+</div>
+
+<div class="form-group">
+<label class="col-xs-12 col-sm-3 col-md-2 control-label"><i class="c_red">*</i>出租消息ID：</label>
+<div class="col-sm-8">
+<input type="number" class="form-control" name="sale_mid" autocomplete="off" value="{$det['sale_mid']}" />
+</div></div> 
+
+
+    </div>
+  </div>
+
+
+
+  <!--   <div class="panel-heading" id="paoject_info">
+    出租信息
+  </div>
+  <div class="panel-body">
+    
+     
+  
+  
+  </div>
+    </div> -->
+
+<div class="panel panel-default" style="border:none;">
+<!-- <div class="panel-heading" id="paoject_info">
+{if !empty($id)}修改{else}添加{/if}{php echo urldecode($h_title);}
+</div> -->
+<div class="panel-body">
+
+<div class="form-group">
+
+<div class="col-sm-9">
+<button type="submit" class="btn btn-success col-lg-5" name="submit" value="提交">提交</button>
+
+
+</div>
+</div>
+
+</div>
+</div>
+</form>
+</div>
+
+</div>
+{/if}
+
+
+<script type="text/javascript">
+//设置归属栏目名
+function getBtypeName(el){
+$("#btypename").val($("#btype").find("option:selected").text());
+}
+
+if('{$det['btype']}'!='0'){
+  $("#btypename").val($("#btype").find("option:selected").text());
+}
+/*
+//区域
+function startCityChange(el){
+$("#startStation").val(el.value);
+load_city(el.value,"start_s_diqu_id");
+
+var s_duqu=$("#start_p_diqu_id").find("option:selected").text();
+if(s_duqu!='-请选择-'){
+$("#start_p_diqu").val(s_duqu);
+}else{
+$("#start_p_diqu").val("");
+}
+
+$("#start_s_diqu").val('');
+}
+
+var ti='{$det['start_p_diqu_id']}';
+if(ti!=""){
+  load_city(ti,"start_s_diqu_id");  
+}
+
+//始发点区域
+function endCityChange(el){
+var s_diqu=$("#start_s_diqu_id").find("option:selected").text();
+if(s_diqu!='-请选择-'){
+$("#start_s_diqu").val(s_diqu);
+}else{
+$("#start_s_diqu").val("");
+}
+}
+
+
+function load_city(cname,selectID){
+    $.ajax({
+        url:'{php echo $this->createWebUrl('attrcity_byid_json')}',
+        async:false,
+        type:"POST",
+        dataType: "json",
+        data:{cname:cname},
+        success:function(json){
+           //console.log(json)
+           var nat = document.getElementById(selectID);
+           $("#"+selectID).empty();
+
+            var option_init = document.createElement ('option');
+            option_init.value="";          
+            var txt_init = document.createTextNode ("-请选择-");
+            option_init.appendChild (txt_init);
+            nat.appendChild (option_init); 
+
+           for(var i=0;i<json.length;i++){
+            var option = document.createElement ('option');
+            option.value=json[i].id;
+            var txt = document.createTextNode (json[i].name);
+            option.appendChild (txt);
+            nat.appendChild (option); 
+        }
+
+        var ti2='{$det['start_s_diqu_id']}';
+if(ti2!=""){
+  //load_city(ti2,"end_s_diqu_");  
+  $("#start_s_diqu_id").val(ti2);
+}
+    },
+    error:function(){
+        alert('请求错误！');
+    }
+});  
+}
+*/
+</script>
+{template 'common/footer'}
+<SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

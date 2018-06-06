@@ -1,0 +1,172 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" name="viewport">
+
+<title>审核列表</title>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20160906"></script>
+
+<link rel="shortcut icon" href="{$_W['siteroot']}attachment/images/global/wechat.jpg" />
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery.plugin.js"></script>
+<link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+
+<style type="text/css">
+body {
+   
+    color: #666;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+    min-height: 100%;
+    font-family: "Helvetica","Microsoft Yahei";
+    background: #f3f3f3;
+}
+.tag{
+  background:#0066CC;
+  padding: 5px;
+  border-radius:4px;
+  color: #ffffff;
+}
+a{width: 100%;}
+
+
+.titleBox {
+    background-color: #fff;
+    height: 2.05rem;
+    line-height: 2.05rem;
+}
+.titleBox .back{
+    position: absolute;
+    left: .15625rem;
+    top: .25rem;
+}
+
+.titleBox .right{
+    position: absolute;
+    text-align: right;
+    right: .15625rem;
+    top: .25rem;
+}
+.f14 {
+    font-size: 1rem;
+}
+.rela {
+    position: relative;
+}
+.tc {
+    text-align: center;
+}
+.ico-back{
+  background: url('{MODULE_URL}resource/images/static/left.png');
+  background-repeat: no-repeat;
+ background-size: 0.6rem 1.2rem;
+}
+.back .ico-back {
+    float: left;
+    margin: .15625rem 0 0 .21875rem;
+}
+.ico-right{
+    float: right;
+
+    margin: .15625rem 0 0 .21875rem;
+}
+.ico-back,.ico-right{
+    width: 1.28125rem;
+    height: 1.46875rem;
+   /* background-position: -.625rem 0;*/
+}
+
+.ico-right{
+  background: url('{MODULE_URL}resource/images/static/left.png');
+  background-repeat: no-repeat;
+ background-size: 0.6rem 1.2rem;
+}
+.weui-cells{
+  margin-top: 0.57647059em!important;
+}
+a{color:#666;}
+</style>
+
+<script type="text/javascript">
+  $(function(){  
+        $('#input_num').keyup(function(){  
+          var value=$(this).val().replace(/\s/g,'').replace(/(\d{4})(?=\d)/g,"$1 ");    
+          $(this).val(value)  
+        })
+
+       // console.log('1064956040875')
+      });
+    function editcode(vcode){
+     var vcode_sp=vcode.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
+      $('#input_num').val(vcode_sp);
+    } 
+</script>
+</head>
+<body ontouchstart>
+<!-- javascript:window.history.back(); -->
+
+<div class="titleBox rela tc">
+<a href="javascript:goMian();" class="back"><i class="ico-back"></i></a>
+        <span class="f14">同城幻灯出租审核</span>
+<!-- <a href="javascript:window.history.back();" class="right"><i class="ico-right"></i></a> -->
+    </div>
+
+
+
+
+
+<div class="weui-cells">
+{loop $list $index $row}
+<!-- <a href="{php echo $this->createMobileUrl('sh_main_msg_det',array('id'=>$row['id']));}"> </a>  --> 
+ <div class="weui-cell weui-cell_access" onclick="audit_det({$row['id']});">
+    <div class="weui-cell__bd">
+      <p>{if $row['bn_btypename']!=''}
+      <span class="tag">{$row['bn_btypename']}</span>   
+      {/if}
+      {$row['bn_days']}天/共:{$row['bn_total_money']}元
+      </p>
+    </div>
+    <div class="weui-cell__ft">审核</div>
+  </div>
+
+{/loop}  
+</div>
+
+<script type="text/javascript" src="{MODULE_URL}resource/js/fastclick.js"></script>
+<script>
+  function audit_det(did){
+  var tourl="{php echo $this->createMobileUrl('sh_main_banner',array('op'=>'det'));}";
+  window.location.href=tourl+"&did="+did;
+  }
+
+  function form_check(){
+   var data=$("#frm_main").serializeObject();
+    if(data.user_name==''){
+      $.toptip('请输入登陆帐号!', 'error');
+      return false;
+    }else if(data.user_password==''){
+       $.toptip('请输入登陆密码!', 'error');
+      return false;
+    }
+
+
+  }
+
+  
+  function goMian(){
+  var tourl="{php echo $this->createMobileUrl('sh_main');}";
+  window.location.href=tourl+"&mgid="+sessionStorage.getItem("mgid");
+    //
+
+  }
+  
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

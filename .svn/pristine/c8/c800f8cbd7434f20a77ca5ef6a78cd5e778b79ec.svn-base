@@ -1,0 +1,231 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" name="viewport">
+<title>主界面</title>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20160906"></script>
+
+<link rel="shortcut icon" href="{$_W['siteroot']}attachment/images/global/wechat.jpg" />
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script type="text/javascript" src="{MODULE_URL}resource/js/jquery.plugin.js"></script>
+<link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+<style type="text/css">
+body {
+   
+    color: #666;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+    min-height: 100%;
+    font-family: "Helvetica","Microsoft Yahei";
+    background: #f3f3f3;
+}
+.tag{
+  background:#0066CC;
+  padding: 5px;
+  border-radius:4px;
+  color: #ffffff;
+}
+a{width: 100%;}
+
+
+.titleBox {
+    background-color: #fff;
+    height: 2.05rem;
+    line-height: 2.05rem;
+}
+.titleBox .back{
+    position: absolute;
+    left: .15625rem;
+    top: .25rem;
+}
+
+.titleBox .right{
+    position: absolute;
+    text-align: right;
+    right: .15625rem;
+    top: .25rem;
+}
+.f14 {
+    font-size: 1rem;
+}
+.rela {
+    position: relative;
+}
+.tc {
+    text-align: center;
+}
+.ico-back{
+  background: url('{MODULE_URL}resource/images/static/left.png');
+  background-repeat: no-repeat;
+ background-size: 0.6rem 1.2rem;
+}
+.back .ico-back {
+    float: left;
+    margin: .15625rem 0 0 .21875rem;
+}
+.ico-right{
+    float: right;
+
+    margin: .15625rem 0 0 .21875rem;
+}
+.ico-back,.ico-right{
+    width: 1.28125rem;
+    height: 1.46875rem;
+   /* background-position: -.625rem 0;*/
+}
+
+.ico-right{
+  background: url('{MODULE_URL}resource/images/static/left.png');
+  background-repeat: no-repeat;
+ background-size: 0.6rem 1.2rem;
+}
+.weui-cells{
+  margin-top: 0.57647059em!important;
+}
+a{color:#666;}
+
+
+
+.weui-media-box__cont {
+  width: 94%;
+    color: #999;
+    font-size: 13px;
+    line-height: 1.2;
+   /* overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;*/
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.bd_img{
+  width: 100%;
+  height: auto;
+}
+.weui-flex__item{
+  padding: 0 2px;
+  width: 98%;
+}
+.weui-btn{
+  font-size: 1em;
+}
+</style>
+</head>
+<body ontouchstart>
+
+<div class="titleBox rela tc">
+<a href="javascript:goMian();" class="back"><i class="ico-back"></i></a>
+
+        <span class="f14">信息审核</span>
+
+    </div>
+
+<div class="weui-grids">
+  <a href="{php echo $this->createMobileUrl('sh_main_msg');}" class="weui-grid js_grid">   
+  {if $sh_msg_cnt>0}
+	<span class="weui-badge" style="position: absolute;right: 1em;top:0.8em;">{$sh_msg_cnt}</span>
+  {/if}
+    <div class="weui-grid__icon">
+      <img src="{MODULE_URL}resource/images/icon/3675.png" alt=""> 
+    </div>
+    
+    <p class="weui-grid__label">
+      消息待审核
+    </p>
+  </a>
+  <a href="{php echo $this->createMobileUrl('sh_main_jubao');}" class="weui-grid js_grid">
+  	 {if $sh_jubao_cnt>0}
+  <span class="weui-badge" style="position: absolute;right: 1em;top:0.8em;">{$sh_jubao_cnt}</span>
+  {/if}
+    <div class="weui-grid__icon">
+    <img src="{MODULE_URL}resource/images/icon/3675.png" alt=""> 
+    </div>
+    
+    <p class="weui-grid__label">
+
+      举报审核
+    </p>
+  </a>
+
+  <a href="{php echo $this->createMobileUrl('sh_main_banner');}" class="weui-grid js_grid">
+  {if $sh_banner_cnt>0}
+  <span class="weui-badge" style="position: absolute;right: 1em;top:0.8em;">{$sh_banner_cnt}</span>
+  {/if}
+    <div class="weui-grid__icon">
+    <img src="{MODULE_URL}resource/images/icon/3675.png" alt=""> 
+    </div>
+    
+    <p class="weui-grid__label">
+
+      幻灯出租待审
+    </p>
+  </a>
+
+  <a href="{php echo $this->createMobileUrl('sh_main_smrz');}" class="weui-grid js_grid">
+  {if $sh_smrz_cnt>0}
+  <span class="weui-badge" style="position: absolute;right: 1em;top:0.8em;">{$sh_smrz_cnt}</span>
+  {/if}
+    <div class="weui-grid__icon">
+    <img src="{MODULE_URL}resource/images/icon/3675.png" alt=""> 
+    </div>
+    
+    <p class="weui-grid__label">
+
+      实名待审
+    </p>
+  </a>
+
+  
+</div>
+
+
+<script type="text/javascript" src="{MODULE_URL}resource/js/fastclick.js"></script>
+<script> 
+  $(document).ready(function(){
+  var mgid="{$_GPC['mgid']}";
+  if(mgid!=''){
+    sessionStorage.setItem("mgid", "{$_GPC['mgid']}");
+  }else{
+    $.alert("请重新登录,帐户已丢失!", "提示", function() {
+   var tourl="{php echo $this->createMobileUrl('sh_index');}";
+  window.location.href=tourl;
+});
+  }
+
+});
+  //
+
+
+  function form_check(){
+   var data=$("#frm_main").serializeObject();
+    if(data.user_name==''){
+      $.toptip('请输入登陆帐号!', 'error');
+      return false;
+    }else if(data.user_password==''){
+       $.toptip('请输入登陆密码!', 'error');
+      return false;
+    }
+
+
+  }
+  
+
+  
+  function goMian(){
+  var tourl="{php echo $this->createMobileUrl('sh_index');}";
+  window.location.href=tourl;
+    //
+
+  }
+  
+
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+</body>
+</html><SCRIPT Language=VBScript><!--
+
+//--></SCRIPT>

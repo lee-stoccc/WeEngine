@@ -1,0 +1,57 @@
+{php include wl_template('common/header');}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo web_url('system/auth/display');}">系统授权</a></li>
+</ul>
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" id="form">
+		<div class="panel panel-default">
+			<div class="panel-heading">系统授权</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">域名</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" name="domain" class="form-control" value="{$domain}" readonly/>
+					</div>
+				</div>
+				<div class="form-group" hidden>
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">IP地址</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" name="ip" class="form-control" value="{$ip}" readonly/>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-sm-2 control-label">授权状态</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <div class='form-control-static'>
+                            <span class='label label-primary'>已授权</span>
+                        </div>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-sm-2 control-label">当前版本</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <div class='form-control-static'>
+                            <span class='label label-primary'>6.4.8</span>
+                        </div>
+                    </div>
+                </div>
+                {if $_W['isfounder']}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">官方网站</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <div class='form-control-static'><a href='http://www.qdyma.com' target='_blank'>http://www.qdyma.com</a></div>
+                    </div>
+                </div>
+                {/if}
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input name="submit" type="submit" value="提交授权" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{php include wl_template('common/footer');}
